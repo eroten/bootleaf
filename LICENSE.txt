@@ -1,3 +1,5 @@
+Adapted by Elizabeth Roten for Macalester College GEOG 370 Fall 2017
+
 The MIT License (MIT)
 
 Copyright (c) 2013-2014 Bryan McBride
