@@ -160,6 +160,7 @@ var boroughs = L.geoJson(null, {
   }
 });
 $.getJSON("data/boroughs.geojson", function (data) {
+  format = "json";
   boroughs.addData(data);
 });
 
