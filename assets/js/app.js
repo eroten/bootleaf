@@ -159,7 +159,7 @@ var boroughs = L.geoJson(null, {
     });
   }
 });
-$.getJSON("data/boroughs.geojson", function (data) {
+$.getJSON("C:\Users\Liz\OneDrive\DVP\bootleaf\data", function (data) {
   format = "json";
   boroughs.addData(data);
 });
