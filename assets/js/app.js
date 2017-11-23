@@ -1,4 +1,4 @@
-var map, featureList, boroughSearch = [], theaterSearch = [], museumSearch = [];
+var map, featureList, boroughSearch = [], neighborhoodSearch= [], theaterSearch = [], museumSearch = [];
 
 $(window).resize(function() {
   sizeLayerControl();
@@ -159,9 +159,35 @@ var boroughs = L.geoJson(null, {
     });
   }
 });
+
 $.getJSON("C:\Users\Liz\OneDrive\DVP\bootleaf\data", function (data) {
   format = "json";
   boroughs.addData(data);
+});
+
+//adding MPLS neighborhoods
+
+var mplsn = L.geoJson(null, {
+  style: function (feature) {
+    return {
+      color: "black",
+      fill: false,
+      opacity: 1,
+      clickable: false
+    };
+  },
+  onEachFeature: function (feature, layer) {
+    neighborhoodSearch.push({
+      name: layer.feature.properties.bdname,
+      source: "MPLS Neighborhoods",
+      id: L.stamp(layer),
+      bounds: layer.getBounds()
+    });
+  }
+});
+
+$.geoJson("C:\Users\Liz\OneDrive\DVP\bootleaf\data", function (data){
+  format = "json";
 });
 
 //Create a color dictionary based off of subway route_id
@@ -424,7 +450,8 @@ var groupedOverlays = {
   },
   "Reference": {
     "Boroughs": boroughs,
-    "Subway Lines": subwayLines
+    "Subway Lines": subwayLines,
+    "Minneapolis Neighborhoods": Minneapolis
   }
 };
 
@@ -467,6 +494,16 @@ $(document).one("ajaxStop", function () {
     limit: 10
   });
 
+  var minneapolisBH = new Bloodhound({
+    name: "Minneapolis Neighborhoods",
+    datumTokenizer: function(d){
+      return Bloodhound.tokenizers.whitespace(d.name);
+    },
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    local: neighborhoodSearch,
+    limit:10
+  });
+
   var theatersBH = new Bloodhound({
     name: "Theaters",
     datumTokenizer: function (d) {
@@ -486,6 +523,7 @@ $(document).one("ajaxStop", function () {
     local: museumSearch,
     limit: 10
   });
+  
 
   var geonamesBH = new Bloodhound({
     name: "GeoNames",
@@ -521,6 +559,7 @@ $(document).one("ajaxStop", function () {
   theatersBH.initialize();
   museumsBH.initialize();
   geonamesBH.initialize();
+  minneapolisBH.initialize();
 
   /* instantiate the typeahead UI */
   $("#searchbox").typeahead({
