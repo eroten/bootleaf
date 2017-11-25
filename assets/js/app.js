@@ -1,8 +1,6 @@
 var map, featureList, boroughSearch = [], neighborhoodSearch= [], theaterSearch = [], museumSearch = [];
 
-$(window).resize(function() {
-  sizeLayerControl();
-});
+$(window).on ("resize",sizeLayerControl);
 
 $(document).on("click", ".feature-row", function(e) {
   $(document).off("mouseout", ".feature-row", clearHighlight);
@@ -17,46 +15,46 @@ if ( !("ontouchstart" in window) ) {
 
 $(document).on("mouseout", ".feature-row", clearHighlight);
 
-$("#about-btn").click(function() {
+$("#about-btn").on("click", function() {
   $("#aboutModal").modal("show");
   $(".navbar-collapse.in").collapse("hide");
   return false;
 });
 
-$("#full-extent-btn").click(function() {
+$("#full-extent-btn").on ("click",function() {
   map.fitBounds(boroughs.getBounds());
   $(".navbar-collapse.in").collapse("hide");
   return false;
 });
 
-$("#legend-btn").click(function() {
+$("#legend-btn").on ("click", function(){
   $("#legendModal").modal("show");
   $(".navbar-collapse.in").collapse("hide");
   return false;
 });
 
-$("#login-btn").click(function() {
+$("#login-btn").on ("click", (function() {
   $("#loginModal").modal("show");
   $(".navbar-collapse.in").collapse("hide");
   return false;
-});
+}));
 
-$("#list-btn").click(function() {
+$("#list-btn").on ("click",function() {
   animateSidebar();
   return false;
 });
 
-$("#nav-btn").click(function() {
+$("#nav-btn").on ("click",function() {
   $(".navbar-collapse").collapse("toggle");
   return false;
 });
 
-$("#sidebar-toggle-btn").click(function() {
+$("#sidebar-toggle-btn").on ("click",function() {
   animateSidebar();
   return false;
 });
 
-$("#sidebar-hide-btn").click(function() {
+$("#sidebar-hide-btn").on ("click",function() {
   animateSidebar();
   return false;
 });
@@ -186,8 +184,8 @@ var mplsn = L.geoJson(null, {
   }
 });
 
-$.geoJson("C:\Users\Liz\OneDrive\DVP\bootleaf\data", function (data){
-  format = "json";
+$.Json("C:\Users\Liz\OneDrive\DVP\bootleaf\data", function (data){
+  format = "geojson";
 });
 
 //Create a color dictionary based off of subway route_id
