@@ -76,7 +76,7 @@ function clearHighlight() {
 }
 
 function sidebarClick(id) {
-  var layer = markerClusters.getLayer(id);
+  var layer = markers.getLayer(id);
   map.setView([layer.getLatLng().lat, layer.getLatLng().lng], 17);
   layer.fire("click");
   /* Hide sidebar and go to the map on small screens */
@@ -240,14 +240,14 @@ $.getJSON("data/subways.geojson", function (data) {
 });
 
 /* Single marker cluster layer to hold all clusters */
-var markerClusters = new L.MarkerClusterGroup({
+var markers = new L.MarkerClusterGroup({
   spiderfyOnMaxZoom: true,
   showCoverageOnHover: false,
   zoomToBoundsOnClick: true,
   disableClusteringAtZoom: 16
 });
 
-/* Empty layer placeholder to add to layer control for listening when to add/remove theaters to markerClusters layer */
+/* Empty layer placeholder to add to layer control for listening when to add/remove theaters to markers layer */
 var theaterLayer = L.geoJson(null);
 var theaters = L.geoJson(null, {
   pointToLayer: function (feature, latlng) {
@@ -290,7 +290,7 @@ $.getJSON("data/DOITT_THEATER_01_13SEPT2010.geojson", function (data) {
   map.addLayer(theaterLayer);
 });
 
-/* Empty layer placeholder to add to layer control for listening when to add/remove museums to markerClusters layer */
+/* Empty layer placeholder to add to layer control for listening when to add/remove museums to markers layer */
 var museumLayer = L.geoJson(null);
 var museums = L.geoJson(null, {
   pointToLayer: function (feature, latlng) {
@@ -335,30 +335,30 @@ $.getJSON("data/DOITT_MUSEUM_01_13SEPT2010.geojson", function (data) {
 map = L.map("map", {
   zoom: 10,
   center: [40.702222, -73.979378],
-  layers: [cartoLight, boroughs, Mpls_neighborhoods, markerClusters, highlight],
+  layers: [cartoLight, boroughs, Mpls_neighborhoods, markers, highlight],
   zoomControl: false,
   attributionControl: false
 });
 
-/* Layer control listeners that allow for a single markerClusters layer */
+/* Layer control listeners that allow for a single markers layer */
 map.on("overlayadd", function(e) {
   if (e.layer === theaterLayer) {
-    markerClusters.addLayer(theaters);
+    markers.addLayer(theaters);
     syncSidebar();
   }
   if (e.layer === museumLayer) {
-    markerClusters.addLayer(museums);
+    markers.addLayer(museums);
     syncSidebar();
   }
 });
 
 map.on("overlayremove", function(e) {
   if (e.layer === theaterLayer) {
-    markerClusters.removeLayer(theaters);
+    markers.removeLayer(theaters);
     syncSidebar();
   }
   if (e.layer === museumLayer) {
-    markerClusters.removeLayer(museums);
+    markers.removeLayer(museums);
     syncSidebar();
   }
 });
