@@ -1,4 +1,4 @@
-var map, featureList, boroughSearch = [], neighborhoodSearch= [], theaterSearch = [], museumSearch = [];
+var map, featureList, boroughSearch = [], MinneapolisNeighborhoodSearch= [], theaterSearch = [], museumSearch = [];
 
 $(window).on ("resize",sizeLayerControl);
 
@@ -22,7 +22,7 @@ $("#about-btn").on("click", function() {
 });
 
 $("#full-extent-btn").on ("click",function() {
-  map.fitBounds(boroughs.getBounds());
+  map.fitBounds(Mpls_neighborhoods.getBounds());
   $(".navbar-collapse.in").collapse("hide");
   return false;
 });
@@ -163,19 +163,20 @@ $.getJSON("C:\Users\Liz\OneDrive\DVP\bootleaf\data", function (data) {
   boroughs.addData(data);
 });
 
+
 //adding MPLS neighborhoods
 
-var mplsn = L.geoJson(null, {
+var Mpls_neighborhoods = L.geoJson(null, {
   style: function (feature) {
     return {
-      color: "black",
-      fill: false,
-      opacity: 1,
-      clickable: false
+      color: "blue",
+      fill: true,
+      opacity: 0.5,
+      clickable: true
     };
   },
   onEachFeature: function (feature, layer) {
-    neighborhoodSearch.push({
+    MinneapolisneighborhoodSearch.push({
       name: layer.feature.properties.bdname,
       source: "MPLS Neighborhoods",
       id: L.stamp(layer),
@@ -184,9 +185,9 @@ var mplsn = L.geoJson(null, {
   }
 });
 
-$.getJson("C:\Users\Liz\OneDrive\DVP\bootleaf\data", function (data){
+//$.getJson("C:\Users\Liz\OneDrive\DVP\bootleaf\data", function (data){
   format = "geojson";
-});
+//});
 
 //Create a color dictionary based off of subway route_id
 var subwayColors = {"1":"#ff3135", "2":"#ff3135", "3":"ff3135", "4":"#009b2e",
@@ -334,7 +335,7 @@ $.getJSON("data/DOITT_MUSEUM_01_13SEPT2010.geojson", function (data) {
 map = L.map("map", {
   zoom: 10,
   center: [40.702222, -73.979378],
-  layers: [cartoLight, boroughs, markerClusters, highlight],
+  layers: [cartoLight, boroughs, Mpls_neighborhoods, markerClusters, highlight],
   zoomControl: false,
   attributionControl: false
 });
@@ -446,24 +447,28 @@ var groupedOverlays = {
     "<img src='assets/img/theater.png' width='24' height='28'>&nbsp;Theaters": theaterLayer,
     "<img src='assets/img/museum.png' width='24' height='28'>&nbsp;Museums": museumLayer
   },
+
+ 
   "Reference": {
     "Boroughs": boroughs,
     "Subway Lines": subwayLines,
-    "Minneapolis Neighborhoods": Minneapolis
+    "Minneapolis Neighborhoods": Mpls_neighborhoods
   }
 };
 
-var layerControl = L.control.groupedLayers(baseLayers, groupedOverlays, {
-  collapsed: isCollapsed
-}).addTo(map);
+
+L.control.groupedLayers(baseLayers, groupedOverlays).addTo(map); 
+//var layerControl = L.control.groupedLayers(baseLayers, groupedOverlays, {
+ // collapsed: isCollapsed
+//}).addTo(map);
 
 /* Highlight search box text on click */
-$("#searchbox").click(function () {
+$("#searchbox").on ("click", function () {
   $(this).select();
 });
 
 /* Prevent hitting enter from refreshing the page */
-$("#searchbox").keypress(function (e) {
+$("#searchbox").on ("keypress",function (e) {
   if (e.which == 13) {
     e.preventDefault();
   }
@@ -477,10 +482,16 @@ $("#featureModal").on("hidden.bs.modal", function (e) {
 $(document).one("ajaxStop", function () {
   $("#loading").hide();
   sizeLayerControl();
+
   /* Fit map to boroughs bounds */
-  map.fitBounds(boroughs.getBounds());
-  featureList = new List("features", {valueNames: ["feature-name"]});
-  featureList.sort("feature-name", {order:"asc"});
+ // map.fitBounds(boroughs.getBounds());
+  //featureList = new List("features", {valueNames: ["feature-name"]});
+  //featureList.sort("feature-name", {order:"asc"});
+
+  // Fit map to mpls_neighborhood bounds
+  map.fitBounds(Mpls_neighborhoods.getBounds());
+  featureList = new List("features", {attributeNames: ["BDNAME"]});
+  featureList.sort("BDNAME", {order:"asc"});
 
   var boroughsBH = new Bloodhound({
     name: "Boroughs",
@@ -498,7 +509,7 @@ $(document).one("ajaxStop", function () {
       return Bloodhound.tokenizers.whitespace(d.name);
     },
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    local: neighborhoodSearch,
+    local: MinneapolisneighborhoodSearch,
     limit:10
   });
 
@@ -570,7 +581,13 @@ $(document).one("ajaxStop", function () {
     source: boroughsBH.ttAdapter(),
     templates: {
       header: "<h4 class='typeahead-header'>Boroughs</h4>"
-    }
+    }}, {
+    name: "Minneapolis Neighborhoods",
+    displayKey: "name",
+    source: minneapolisBH.ttAdapter(),
+    templates: {
+      header: "<h4 class='typeahead-header'>Minneapolis Neighborhoods</h4>"
+      }
   }, {
     name: "Theaters",
     displayKey: "name",
@@ -598,6 +615,11 @@ $(document).one("ajaxStop", function () {
     if (datum.source === "Boroughs") {
       map.fitBounds(datum.bounds);
     }
+
+    if( datum.source === "Minneapolis Neighborhoods"){
+      map.fitBounds(datum.bounds);
+    }
+    
     if (datum.source === "Theaters") {
       if (!map.hasLayer(theaterLayer)) {
         map.addLayer(theaterLayer);
