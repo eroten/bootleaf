@@ -184,7 +184,7 @@ var mplsn = L.geoJson(null, {
   }
 });
 
-$.Json("C:\Users\Liz\OneDrive\DVP\bootleaf\data", function (data){
+$.getJson("C:\Users\Liz\OneDrive\DVP\bootleaf\data", function (data){
   format = "geojson";
 });
 
