@@ -1,9 +1,9 @@
-<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+
+$(window).on ("resize",sizeLayerControl);
+
 var map, 
 featureList, 
 boroughSearch = [], MinneapolisNeighborhoodSearch= [], theaterSearch = [], museumSearch = [];
-
-$(window).on ("resize",sizeLayerControl);
 
 $(document).on("click", ".feature-row", function(e) {
   $(document).off("mouseout", ".feature-row", clearHighlight);
