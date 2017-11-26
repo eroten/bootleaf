@@ -14,9 +14,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css">
-    <link rel="stylesheet" href="https://api.tiles.m  apbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css">
+    <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css">
     <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.Default.css">
-    <link rel="stylesheet" href="https://domoritz.github.io/leaflet-locatecontrol/dist/L.Control.Locate.min.css">
+    <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.css">
     <link rel="stylesheet" href="assets/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.css">
     <link rel="stylesheet" href="assets/css/app.css">
 
@@ -62,8 +62,6 @@
                   <li><a href="data/subways.geojson" download="subways.geojson" target="_blank" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-download"></i>&nbsp;&nbsp;Subway Lines</a></li>
                   <li><a href="data/DOITT_THEATER_01_13SEPT2010.geojson" download="theaters.geojson" target="_blank" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-download"></i>&nbsp;&nbsp;Theaters</a></li>
                   <li><a href="data/DOITT_MUSEUM_01_13SEPT2010.geojson" download="museums.geojson" target="_blank" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-download"></i>&nbsp;&nbsp;Museums</a></li>
-                  <li><a href="data/Mpls_neighborhoods.geojson" download="mplsneighborhoods.geojson" target="_blank" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-download"></i>&nbsp;&nbsp;Minneapolis Neighborhoods</a></li>
-                  
                 </ul>
             </li>
             <li class="hidden-xs"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="list-btn"><i class="fa fa-list white"></i>&nbsp;&nbsp;POI List</a></li>
@@ -92,16 +90,16 @@
             </div>
             <div class="sidebar-table">
               <table class="table table-hover" id="feature-list">
-                <thead class="hidden"></thead>
-                  <thead>
+                <thead class="hidden">
+                  <tr>
                     <th>Icon</th>
-              
-                  
+                  </tr>
+                  <tr>
                     <th>Name</th>
-                  
-                  
+                  </tr>
+                  <tr>
                     <th>Chevron</th>
-                  <!--<tr>-->
+                  </tr>
                 </thead>
                 <tbody class="list"></tbody>
               </table>
@@ -138,7 +136,6 @@
                   <li><a href="#subway-lines-tab" data-toggle="tab">Subway Lines</a></li>
                   <li><a href="#theaters-tab" data-toggle="tab">Theaters</a></li>
                   <li><a href="#museums-tab" data-toggle="tab">Museums</a></li>
-                  <li><a href= "#mpls-tab" data-toggle="tab" >Minneapolis Neighborhoods</a></li>
                 </ul>
               </li>
             </ul>
@@ -161,8 +158,8 @@
                 <p>The data provided on this site is for informational and planning purposes only.</p>
                 <p>Absolutely no accuracy or completeness guarantee is implied or intended. All information on this map is subject to such variations and corrections as might result from a complete title search and/or accurate field survey.</p>
               </div>
-              <div class="tab-pane fade" id="contact">
-                <form id="contact-form">
+              <div class="tab-pane fade">
+                <form>
                   <div class="well well-sm">
                     <div class="row">
                       <div class="col-md-4">
@@ -204,9 +201,6 @@
               <div class="tab-pane fade" id="museums-tab">
                 <p>Museum data courtesy of <a href="https://data.cityofnewyork.us/Recreation/Museums-and-Galleries/sat5-adpb" target="_blank">NYC Department of Information & Telecommunications (DoITT)</a></p>
               </div>
-              <div class="tab-pane fade" id="mpls_tab">
-                <p>Minneapolis data courtesy of <a href="http://opendata.minneapolismn.gov/datasets/neighborhoods?geometry=-93.696%2C44.799%2C-92.831%2C45.139" target = "_blank">Open Minneapolis</a></p>
-              </div>
             </div>
           </div>
           <div class="modal-footer">
@@ -241,7 +235,7 @@
             <h4 class="modal-title">Login</h4>
           </div>
           <div class="modal-body">
-            <form id="contact form">
+            <form id="contact-form">
               <fieldset>
                 <div class="form-group">
                   <label for="name">Username:</label>
@@ -291,20 +285,17 @@
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->N
+    </div><!-- /.modal -->
 
-    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-    <script src="https://code.jquery.com/jquery-migrate-3.0.1.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.5/typeahead.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.1.1/list.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.js"></script>
-    <script src="https://domoritz.github.io/leaflet-locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
-<!--<script src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js"></script>
-<script src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.min.js"></script> -->
-<script src="assets/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.js"></script> 
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
+    <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js"></script>
+    <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.min.js"></script>
+    <script src="assets/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.js"></script>
     <script src="assets/js/app.js"></script>
   </body>
 </html>
