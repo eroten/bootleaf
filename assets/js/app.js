@@ -76,7 +76,7 @@ function clearHighlight() {
 }
 
 function sidebarClick(id) {
-  var layer = markers.getLayer(id);
+/*var layer = markers.getLayer(id);*/
   map.setView([layer.getLatLng().lat, layer.getLatLng().lng], 17);
   layer.fire("click");
   /* Hide sidebar and go to the map on small screens */
@@ -101,7 +101,9 @@ function syncSidebar() {
   museums.eachLayer(function (layer) {
     if (map.hasLayer(museumLayer)) {
       if (map.getBounds().contains(layer.getLatLng())) {
-        $("#feature-list tbody").append('<tr class="feature-row" id="' + L.stamp(layer) + '" lat="' + layer.getLatLng().lat + '" lng="' + layer.getLatLng().lng + '"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/museum.png"></td><td class="feature-name">' + layer.feature.properties.NAME + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
+        $("#feature-list tbody").append('<tr class="feature-row" id="' +
+         L.stamp(layer) + '" lat="' + layer.getLatLng().lat + '" lng="' + 
+         layer.getLatLng().lng + '"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/museum.png"></td><td class="feature-name">' + layer.feature.properties.NAME + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
       }
     }
   });
@@ -239,13 +241,13 @@ $.getJSON("data/subways.geojson", function (data) {
   subwayLines.addData(data);
 });
 
-/* Single marker cluster layer to hold all clusters */
+/* Single marker cluster layer to hold all clusters 
 var markers = new L.MarkerClusterGroup({
   spiderfyOnMaxZoom: true,
   showCoverageOnHover: false,
   zoomToBoundsOnClick: true,
   disableClusteringAtZoom: 16
-});
+}); */
 
 /* Empty layer placeholder to add to layer control for listening when to add/remove theaters to markers layer */
 var theaterLayer = L.geoJson(null);
@@ -335,12 +337,12 @@ $.getJSON("data/DOITT_MUSEUM_01_13SEPT2010.geojson", function (data) {
 map = L.map("map", {
   zoom: 10,
   center: [40.702222, -73.979378],
-  layers: [cartoLight, boroughs, Mpls_neighborhoods, markers, highlight],
+  layers: [cartoLight, boroughs, Mpls_neighborhoods, /*markers,*/ highlight],
   zoomControl: false,
   attributionControl: false
 });
 
-/* Layer control listeners that allow for a single markers layer */
+/* Layer control listeners that allow for a single markers layer 
 map.on("overlayadd", function(e) {
   if (e.layer === theaterLayer) {
     markers.addLayer(theaters);
@@ -361,7 +363,7 @@ map.on("overlayremove", function(e) {
     markers.removeLayer(museums);
     syncSidebar();
   }
-});
+});*/
 
 /* Filter sidebar feature list to only show features in current map bounds */
 map.on("moveend", function (e) {
@@ -457,7 +459,7 @@ var groupedOverlays = {
 };
 
 
-L.control.groupedLayers(baseLayers, groupedOverlays).addTo(map); 
+//L.control.groupedLayers(baseLayers, groupedOverlays).addTo(map); 
 //var layerControl = L.control.groupedLayers(baseLayers, groupedOverlays, {
  // collapsed: isCollapsed
 //}).addTo(map);
@@ -490,7 +492,7 @@ $(document).one("ajaxStop", function () {
 
   // Fit map to mpls_neighborhood bounds
   map.fitBounds(Mpls_neighborhoods.getBounds());
-  featureList = new List("features", {attributeNames: ["BDNAME"]});
+  featureList = new List("features", {valueNames: ["BDNAME"]});
   featureList.sort("BDNAME", {order:"asc"});
 
   var boroughsBH = new Bloodhound({
@@ -564,6 +566,8 @@ $(document).one("ajaxStop", function () {
     },
     limit: 10
   });
+
+  L.control.locate().addTo(map);
   boroughsBH.initialize();
   theatersBH.initialize();
   museumsBH.initialize();
@@ -656,11 +660,11 @@ $(document).one("ajaxStop", function () {
 });
 
 // Leaflet patch to make layer control scrollable on touch browsers
-var container = $(".leaflet-control-layers")[0];
-if (!L.Browser.touch) {
-  L.DomEvent
-  .disableClickPropagation(container)
-  .disableScrollPropagation(container);
-} else {
-  L.DomEvent.disableClickPropagation(container);
-}
+//var container = $(".leaflet-control-layers")[0];
+//if (!L.Browser.touch) {
+  //L.DomEvent
+  //.disableClickPropagation(container)
+  //.disableScrollPropagation(container);
+//} else {
+  //L.DomEvent.disableClickPropagation(container);
+//}
