@@ -1,4 +1,7 @@
-var map, featureList, boroughSearch = [], MinneapolisNeighborhoodSearch= [], theaterSearch = [], museumSearch = [];
+<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+var map, 
+featureList, 
+boroughSearch = [], MinneapolisNeighborhoodSearch= [], theaterSearch = [], museumSearch = [];
 
 $(window).on ("resize",sizeLayerControl);
 
@@ -178,7 +181,7 @@ var Mpls_neighborhoods = L.geoJson(null, {
     };
   },
   onEachFeature: function (feature, layer) {
-    MinneapolisneighborhoodSearch.push({
+    MinneapolisNeighborhoodSearch.push({
       name: layer.feature.properties.bdname,
       source: "MPLS Neighborhoods",
       id: L.stamp(layer),
@@ -486,14 +489,14 @@ $(document).one("ajaxStop", function () {
   sizeLayerControl();
 
   /* Fit map to boroughs bounds */
- // map.fitBounds(boroughs.getBounds());
-  //featureList = new List("features", {valueNames: ["feature-name"]});
-  //featureList.sort("feature-name", {order:"asc"});
+//map.fitBounds(boroughs.getBounds());
+//featureList = new List("features", {valueNames: ["feature-name"]});
+//featureList.sort("feature-name", {order:"asc"});
 
   // Fit map to mpls_neighborhood bounds
-  map.fitBounds(Mpls_neighborhoods.getBounds());
-  featureList = new List("features", {valueNames: ["BDNAME"]});
-  featureList.sort("BDNAME", {order:"asc"});
+ // map.fitBounds(Mpls_neighborhoods.getBounds());
+  //featureList = new List("features", {valueNames: ["BDNAME"]});
+  //featureList.sort("BDNAME", {order:"asc"});
 
   var boroughsBH = new Bloodhound({
     name: "Boroughs",
@@ -511,7 +514,7 @@ $(document).one("ajaxStop", function () {
       return Bloodhound.tokenizers.whitespace(d.name);
     },
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    local: MinneapolisneighborhoodSearch,
+    local: MinneapolisNeighborhoodSearch,
     limit:10
   });
 
@@ -575,7 +578,7 @@ $(document).one("ajaxStop", function () {
   minneapolisBH.initialize();
 
   /* instantiate the typeahead UI */
-  $("#searchbox").typeahead({
+  $("searchbox").typeahead({
     minLength: 3,
     highlight: true,
     hint: false

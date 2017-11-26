@@ -25,8 +25,8 @@ L.Control.GroupedLayers = L.Control.extend({
     }
 
     for (i in groupedOverlays) {
-      for (var j in groupedOverlays[i]) {
-        this._addLayer(groupedOverlays[i][j], j, i, true);
+      for (var g in groupedOverlays[i]) {
+        this._addLayer(groupedOverlays[i][g], j, i, true);
       }
     }
   },
